@@ -63,7 +63,6 @@ const EditPost: FC<EditPostProps> = ({
 
   return (
     <section>
-      <h3>Edit Post</h3>
 			<div>
 				<label htmlFor="Title">Title</label>
 				<input type="text" name="Title" value={ title } onChange={(e) => setTitle(e.target.value)} />

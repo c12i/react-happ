@@ -19,7 +19,6 @@ const PostDetail: FC<PostDetailProps> = ({ postHash, onPostDeleted }) => {
     setRecord(undefined);
 		try {
 			const result = await client?.callZome({
-				cap_secret: null,
 				role_name: 'forum',
 				zome_name: 'posts',
 				fn_name: 'get_latest_post',
