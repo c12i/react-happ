@@ -1,0 +1,55 @@
+import type { AppClient, Record, EntryHash, AgentPubKey, ActionHash, DnaHash } from '@holochain/client';
+import { FC, useState, useContext, useEffect } from 'react';
+
+import type { Comment } from './types';
+import { HolochainContext } from '../../contexts/HolochainContext';
+
+const CreateComment: FC<CreateCommentProps> = ({ onCommentCreated, postHash }) => {
+  const {client} = useContext(HolochainContext);
+	const [comment, setComment] = useState<string>("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+  const [isCommentValid, setIsCommentValid] = useState(false);
+
+  const createComment = async () => {
+		const commentEntry: Comment = { 
+      comment: comment!,
+      post_hash: postHash!,
+    };
+    try {
+      const record = await client?.callZome({
+        cap_secret: null,
+				role_name: 'forum',
+				zome_name: 'posts',
+				fn_name: 'create_comment',
+				payload: commentEntry,
+      });
+      onCommentCreated && onCommentCreated(record.signed_action.hashed.hash);
+    } catch (e) {
+			console.error(e)
+    }
+  };
+
+	useEffect(() => {
+    setIsCommentValid(true && comment !== '');
+  }, [comment, ]);
+
+  return (
+    <div>
+			<h3>Create Comment</h3>
+			<div>
+				<label htmlFor="Comment">Comment</label>
+				<textarea name="Comment" value={ comment } onChange={(e) => setComment(e.target.value)} required></textarea>
+			</div>
+
+			<button disabled={!isCommentValid} onClick={() => createComment()}>
+				Create Comment
+			</button>
+    </div>
+  );
+};
+
+interface CreateCommentProps {
+	onCommentCreated?: (hash?: Uint8Array) => void,
+  postHash: ActionHash,
+}
+
+export default CreateComment;
