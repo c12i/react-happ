@@ -1,6 +1,6 @@
 import { assert, test } from "vitest";
 
-import { runScenario, dhtSync, CallableCell } from '@holochain/tryorama';
+import { runScenario, dhtSync, CallableCell, pause } from '@holochain/tryorama';
 import {
   NewEntryAction,
   ActionHash,
@@ -65,7 +65,8 @@ test('create and read Comment', async () => {
     assert.ok(record);
 
     // Wait for the created entry to be propagated to the other node.
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
 
     // Bob gets the created Comment
     const createReadOutput: Record = await bob.cells[0].callZome({
@@ -110,7 +111,8 @@ test('create and delete Comment', async () => {
     const record: Record = await createComment(alice.cells[0], sample);
     assert.ok(record);
 
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
 
     // Bob gets the Posts for the new Comment
     let linksToPosts: Link[] = await bob.cells[0].callZome({
@@ -130,7 +132,8 @@ test('create and delete Comment', async () => {
     assert.ok(deleteActionHash);
 
     // Wait for the entry deletion to be propagated to the other node.
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
         
     // Bob gets the oldest delete for the Comment
     const oldestDeleteForComment: SignedActionHashed = await bob.cells[0].callZome({

@@ -1,6 +1,6 @@
 import { assert, test } from "vitest";
 
-import { runScenario, dhtSync, CallableCell } from '@holochain/tryorama';
+import { runScenario, dhtSync, CallableCell, pause } from '@holochain/tryorama';
 import {
   NewEntryAction,
   ActionHash,
@@ -44,7 +44,8 @@ test('create a Post and get all posts', async () => {
     const createRecord: Record = await createPost(alice.cells[0]);
     assert.ok(createRecord);
     
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
     
     // Bob gets all posts again
     collectionOutput = await bob.cells[0].callZome({
@@ -62,7 +63,8 @@ test('create a Post and get all posts', async () => {
       payload: createRecord.signed_action.hashed.hash
     });
 
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
 
     // Bob gets all posts again
     collectionOutput = await bob.cells[0].callZome({

@@ -1,6 +1,6 @@
 import { assert, test } from "vitest";
 
-import { runScenario, dhtSync, CallableCell } from '@holochain/tryorama';
+import { runScenario, dhtSync, CallableCell, pause } from '@holochain/tryorama';
 import {
   NewEntryAction,
   ActionHash,
@@ -65,7 +65,8 @@ test('create and read Post', async () => {
     assert.ok(record);
 
     // Wait for the created entry to be propagated to the other node.
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
 
     // Bob gets the created Post
     const createReadOutput: Record = await bob.cells[0].callZome({
@@ -117,7 +118,8 @@ test('create and update Post', async () => {
     assert.ok(updatedRecord);
 
     // Wait for the updated entry to be propagated to the other node.
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
         
     // Bob gets the updated Post
     const readUpdatedOutput0: Record = await bob.cells[0].callZome({
@@ -143,7 +145,8 @@ test('create and update Post', async () => {
     assert.ok(updatedRecord);
 
     // Wait for the updated entry to be propagated to the other node.
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
         
     // Bob gets the updated Post
     const readUpdatedOutput1: Record = await bob.cells[0].callZome({
@@ -187,7 +190,8 @@ test('create and delete Post', async () => {
     const record: Record = await createPost(alice.cells[0], sample);
     assert.ok(record);
 
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
 
 
     // Alice deletes the Post
@@ -199,7 +203,8 @@ test('create and delete Post', async () => {
     assert.ok(deleteActionHash);
 
     // Wait for the entry deletion to be propagated to the other node.
-    await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    // await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+    await pause(5000);
         
     // Bob gets the oldest delete for the Post
     const oldestDeleteForPost: SignedActionHashed = await bob.cells[0].callZome({
@@ -216,7 +221,5 @@ test('create and delete Post', async () => {
       payload: record.signed_action.hashed.hash,
     });
     assert.equal(deletesForPost.length, 1);
-
-
   });
 });
