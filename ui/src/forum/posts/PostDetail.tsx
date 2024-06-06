@@ -5,6 +5,7 @@ import  { FC, useState, useEffect, useContext, useCallback } from 'react';
 import EditPost from './EditPost'; 
 import type { Post } from './types';
 import { HolochainContext } from '../../contexts/HolochainContext';
+import CommentsForPost from './CommentsForPost';
 
 const PostDetail: FC<PostDetailProps> = ({ postHash, onPostDeleted }) => {
   const {client} = useContext(HolochainContext)
@@ -100,6 +101,8 @@ const PostDetail: FC<PostDetailProps> = ({ postHash, onPostDeleted }) => {
             <span><strong>Content: </strong></span>
             <span>{ post?.content }</span>
           </div>
+
+          <CommentsForPost postHash={postHash} />
         </section>
       ) : (
         <article>The requested post was not found.</article>

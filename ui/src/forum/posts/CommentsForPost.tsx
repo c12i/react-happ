@@ -6,7 +6,7 @@ import CommentDetail from './CommentDetail';
 import type { PostsSignal } from './types';
 import { HolochainContext } from '../../contexts/HolochainContext';
 
-const CommentsForPost: FC<CommentsForPostProps> = (postHash) => {
+const CommentsForPost: FC<CommentsForPostProps> = ({postHash}) => {
   const {client} = useContext(HolochainContext);
   const [hashes, setHashes] = useState<Uint8Array[]>([]);
   const [loading, setLoading] = useState(false);
