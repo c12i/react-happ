@@ -1,5 +1,5 @@
 
-import { Link, HolochainError } from '@holochain/client';
+import { Link, HolochainError, AppSignal } from '@holochain/client';
 import  { FC, useCallback, useState, useEffect, useContext } from 'react';
 
 import CommentDetail from './CommentDetail';
@@ -13,26 +13,26 @@ const CommentsForPost: FC<CommentsForPostProps> = (postHash) => {
   const [error, setError] = useState<HolochainError | undefined>();
 
   const fetchComments = useCallback(async () => {
-		setLoading(true)
+    setLoading(true)
     try {
       const links: Link[] = await client?.callZome({
         cap_secret: null,
-				role_name: 'forum',
-				zome_name: 'posts',
-				fn_name: 'get_comments_for_post',
-				payload: postHash
+        role_name: 'forum',
+        zome_name: 'posts',
+        fn_name: 'get_comments_for_post',
+        payload: postHash
       });
-			if (links?.length) {
+      if (links?.length) {
         setHashes(links.map((l) => l.target));
       }
     } catch (e) {
       setError(e as HolochainError);
     } finally {
       setLoading(false);
-		}
+    }
   }, [client]);
 
-  const handleSignal = useCallback(async (signal) => {
+  const handleSignal = useCallback(async (signal: AppSignal) => {
     if (signal.zome_name !== 'posts') return;
     const payload = signal.payload as PostsSignal;
     if (!(payload.type === 'EntryCreated' && payload.app_entry.type === 'Comment')) return;
@@ -66,7 +66,7 @@ const CommentsForPost: FC<CommentsForPostProps> = (postHash) => {
 };
 
 interface CommentsForPostProps {
-	postHash: Uint8Array
+  postHash: Uint8Array
 }
 
 export default CommentsForPost;

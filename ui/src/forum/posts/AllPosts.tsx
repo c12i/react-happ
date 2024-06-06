@@ -12,23 +12,23 @@ const AllPosts: FC = () => {
   const [error, setError] = useState<HolochainError | undefined>();
 
   const fetchPosts = useCallback(async () => {
-		setLoading(true)
+    setLoading(true)
     try {
       const links: Link[] = await client?.callZome({
         cap_secret: null,
-				role_name: 'forum',
-				zome_name: 'posts',
-				fn_name: 'get_all_posts',
-				payload: null,
+        role_name: 'forum',
+        zome_name: 'posts',
+        fn_name: 'get_all_posts',
+        payload: null,
       });
-			if (links?.length) {
+      if (links?.length) {
         setHashes(links.map((l) => l.target));
       }
     } catch (e) {
       setError(e as HolochainError);
     } finally {
       setLoading(false);
-		}
+    }
   }, [client]);
 
   const handleSignal = useCallback((signal: AppSignal) => {
