@@ -45,13 +45,13 @@ const CommentsForPost: FC<CommentsForPostProps> = ({postHash}) => {
   }, [client, handleSignal]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return <progress />;
   }
 
   return (
     <div>
       {error ? (
-        <span>Error fetching the comments: {error.message}</span>
+        <section>Error fetching the comments: {error.message}</section>
       ) : hashes.length > 0 ? (
         <div>
           {hashes.map((hash, i) => (
@@ -59,7 +59,7 @@ const CommentsForPost: FC<CommentsForPostProps> = ({postHash}) => {
           ))}
         </div>
       ) : (
-        <span>No comments found for this post.</span>
+        <section>No comments found for this post.</section>
       )}
     </div>
   );

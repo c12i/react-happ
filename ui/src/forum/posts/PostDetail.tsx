@@ -6,6 +6,7 @@ import EditPost from './EditPost';
 import type { Post } from './types';
 import { HolochainContext } from '../../contexts/HolochainContext';
 import CommentsForPost from './CommentsForPost';
+import CreateComment from './CreateComment';
 
 const PostDetail: FC<PostDetailProps> = ({ postHash, onPostDeleted }) => {
   const {client} = useContext(HolochainContext)
@@ -88,22 +89,26 @@ const PostDetail: FC<PostDetailProps> = ({ postHash, onPostDeleted }) => {
           />
         </div>
       ) : record ? (
-        <section>
-          <div>
-            <button onClick={() => setEditing(true)}>edit</button>
-            <button onClick={deletePost}>delete</button>
-          </div>
-          <div>
-            <span><strong>Title: </strong></span>
-            <span>{ post?.title }</span>
-          </div>
-          <div>
-            <span><strong>Content: </strong></span>
-            <span>{ post?.content }</span>
-          </div>
+        <>
+          <section>
+            <div>
+              <span><strong>Title: </strong></span>
+              <span>{ post?.title }</span>
+            </div>
+            <div>
+              <span><strong>Content: </strong></span>
+              <span>{ post?.content }</span>
+            </div>
+            <div>
+              <button onClick={() => setEditing(true)}>edit</button>
+              <button onClick={deletePost}>delete</button>
+            </div>
 
+          </section>
+          <h3>Comments</h3>
           <CommentsForPost postHash={postHash} />
-        </section>
+          <CreateComment postHash={postHash} />
+        </>
       ) : (
         <article>The requested post was not found.</article>
       )}

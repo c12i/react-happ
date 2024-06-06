@@ -51,7 +51,7 @@ const AllPosts: FC = () => {
   return (
     <div>
       {error ? (
-        <span>Error fetching the posts: {error.message}</span>
+        <section>Error fetching the posts: {error.message}</section>
       ) : hashes.length > 0 ? (
         <div>
           {hashes.map((hash, i) => (

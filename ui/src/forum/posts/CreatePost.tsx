@@ -6,8 +6,8 @@ import { HolochainContext } from '../../contexts/HolochainContext';
 
 const CreatePost: FC<CreatePostProps> = ({ onPostCreated }) => {
   const {client} = useContext(HolochainContext);
-  const [title, setTitle] = useState<string>("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-  const [content, setContent] = useState<string>("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
   const [isPostValid, setIsPostValid] = useState(false);
 
   const createPost = async () => {

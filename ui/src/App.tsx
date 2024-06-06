@@ -16,8 +16,8 @@ const App = () => {
   return (
     <div>
       <h2>Welcome to the Forum hApp</h2>
-      <AllPosts />
       <CreatePost />
+      <AllPosts />
     </div>
   )
 }

@@ -75,11 +75,11 @@ const CommentDetail: FC<CommentDetailProps> = ({ commentHash, onCommentDeleted }
       { record ? (
         <section>
           <div>
-            <button onClick={deleteComment}>delete</button>
-          </div>
-          <div>
             <span><strong>Comment:</strong></span>
             <span>{ comment?.comment }</span>
+          </div>
+          <div>
+            <button onClick={deleteComment}>delete</button>
           </div>
         </section>
       ) : (

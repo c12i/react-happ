@@ -6,7 +6,7 @@ import { HolochainContext } from '../../contexts/HolochainContext';
 
 const CreateComment: FC<CreateCommentProps> = ({ onCommentCreated, postHash }) => {
   const {client} = useContext(HolochainContext);
-  const [comment, setComment] = useState<string>("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+  const [comment, setComment] = useState<string>("");
   const [isCommentValid, setIsCommentValid] = useState(false);
 
   const createComment = async () => {
